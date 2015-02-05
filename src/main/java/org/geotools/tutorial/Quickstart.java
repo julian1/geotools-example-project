@@ -84,18 +84,17 @@ public class Quickstart {
 
 			ds.setDataSourceName("my unique name" );
 
-			// this is resolving to localhost ????
-//            ds.setServerName("103.6.252.147");
-            ds.setServerName("dbprod.emii.org.au");
+/*            ds.setServerName("dbprod.emii.org.au");
             ds.setUser("jfca");
-            ds.setPassword("***");
+            ds.setPassword("****");
+*/
 
-/*			// localhost
+			// localhost
             //ds.setServerName("131.217.38.46");
             ds.setServerName("127.0.0.1");
             ds.setUser("meteo");
             ds.setPassword("meteo");
-*/
+
             ds.setPortNumber( 5432 );
             ds.setDatabaseName("harvest");
             ds.setSsl( true );
@@ -169,6 +168,8 @@ public class Quickstart {
 		System.out.println( featureSource);
 
 
+		// see http://docs.geotools.org/latest/javadocs/org/geotools/data/Query.html
+		// for details on queries and filters
 		Query query = new Query("countries");
 
         System.out.println( "count");
