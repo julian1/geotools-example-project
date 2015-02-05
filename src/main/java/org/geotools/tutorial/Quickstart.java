@@ -39,11 +39,11 @@ import org.postgresql.ds.PGPoolingDataSource;
 //import org.geotools.feature.simple.SimpleFeatureBuilder;
 //import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.data.simple.SimpleFeatureSource;
-
+import org.geotools.feature.visitor.CountVisitor;
 
 import org.geotools.data.Query;
 
-
+import java.lang.reflect.Method;
 
 
 public class Quickstart {
@@ -175,10 +175,52 @@ public class Quickstart {
         System.out.println( "count");
 		System.out.println( featureSource.getCount( query ) );
 
+
+		// want to pull values out, 
 		
 		//SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
 		//tb.setAttributes( store.getSchema().getAttributeDescriptors());
 		//tb.setAttributes( store.getAttributeDescriptors());
+
+
+//		protected int getCount(SimpleFeatureType featureType, Query query, Connection cx)
+
+
+//	error: getAggregateValue(FeatureVisitor,SimpleFeatureType,Query,Connection) has protected access in JDBCDataStore
+
+        System.out.println( "list of methods");
+
+		for(Method m : store.getClass().getDeclaredMethods()) { 
+			if(m.getName().equals("getAggregateValue")) { 
+				System.out.println( "whoot the method");
+				System.out.println (m);
+			}
+		}
+
+// can see the method there,
+//			protected java.lang.Object org.geotools.jdbc.JDBCDataStore.getAggregateValue(org.opengis.feature.FeatureVisitor,org.opengis.feature.simple.SimpleFeatureType,org.geotools.data.Query,java.sql.Connection) throws java.io.IOException
+
+
+        System.out.println( "***************");
+        System.out.println( "before get method");
+
+		Method method = store.getClass().getDeclaredMethod("getAggregateValue", 
+			org.opengis.feature.FeatureVisitor.class,
+			org.opengis.feature.simple.SimpleFeatureType.class,
+			org.geotools.data.Query.class,
+			java.sql.Connection.class
+		);
+		//Method method = store.getClass().getMethod("getAggregateValue" );
+
+        System.out.println("method");
+		System.out.println("method = " + method.toString());
+
+
+ 
+ //       CountVisitor v = new CountVisitor();
+//        store.getAggregateValue(v,null,query, null /*cx */);
+ //       return v.getCount();
+
 
 
   
