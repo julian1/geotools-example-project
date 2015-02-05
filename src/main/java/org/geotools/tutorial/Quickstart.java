@@ -36,13 +36,17 @@ import javax.naming.NamingException;
 import org.postgresql.ds.PGConnectionPoolDataSource; 
 import org.postgresql.ds.PGPoolingDataSource; 
 
+//import org.geotools.feature.simple.SimpleFeatureBuilder;
+//import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.data.simple.SimpleFeatureSource;
+
+
+import org.geotools.data.Query;
+
+
 
 
 public class Quickstart {
-
-
-
-
 
   /*
     Example taken from
@@ -79,18 +83,19 @@ public class Quickstart {
             System.out.println( "here4\n");
 
 			ds.setDataSourceName("my unique name" );
-/*
+
 			// this is resolving to localhost ????
 //            ds.setServerName("103.6.252.147");
             ds.setServerName("dbprod.emii.org.au");
             ds.setUser("jfca");
-            ds.setPassword("*****");
-*/
-			// localhost
+            ds.setPassword("***");
+
+/*			// localhost
             //ds.setServerName("131.217.38.46");
             ds.setServerName("127.0.0.1");
             ds.setUser("meteo");
             ds.setPassword("meteo");
+*/
             ds.setPortNumber( 5432 );
             ds.setDatabaseName("harvest");
             ds.setSsl( true );
@@ -147,22 +152,40 @@ public class Quickstart {
         System.out.println( "conn");
         System.out.println( conn );
 
+
+        System.out.println( "dialect");
+		System.out.println( store.getSQLDialect() );
+
+
+		// oohhhh
+        String typeName = store.getTypeNames()[0];
+        System.out.println( "typename");
+		System.out.println( typeName );
+
+		// bluenet_datasets
+
+        SimpleFeatureSource featureSource = store.getFeatureSource(typeName);
+        System.out.println( "featureSource");
+		System.out.println( featureSource);
+
+
+		Query query = new Query("countries");
+
+        System.out.println( "count");
+		System.out.println( featureSource.getCount( query ) );
+
+		
+		//SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
+		//tb.setAttributes( store.getSchema().getAttributeDescriptors());
+		//tb.setAttributes( store.getAttributeDescriptors());
+
+
   
 		store.closeSafe(conn);
         store.dispose();
 
+		
 
-        /*
-//        String dbtype = setup.createDataStoreFactory().getDatabaseID();
-        params.put(JDBCDataStoreFactory.NAMESPACE.key, "http://www.geotools.org/test");
-//        params.put(JDBCDataStoreFactory.DBTYPE.key, dbtype);
-        params.put(JDBCJNDIDataStoreFactory.JNDI_REFNAME.key, "ds");
-        JDBCDataStore dataStore = (JDBCDataStore) DataStoreFinder.getDataStore(params);
-//        Connection con = dataStore.getDataSource().getConnection();
-//        assertTrue(con != null);
- //       assertFalse(con.isClosed());
- //       dataStore.closeSafe(con);
-*/
 
 /*
         // display a data store file chooser dialog for shapefiles
