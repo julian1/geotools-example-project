@@ -10,6 +10,13 @@ The DataStore has a FeatureSource inside it.
 * The FeatureSource is used to read features, the subclass FeatureStore is used for read/write access. eg. 
 	because it's more specific.
 
+-------------------
+Issues - 
+	- can it stream if calling the visitor directly. 
+	- will it integrate.
+
+
+
 
 
 A simple count is available:

@@ -161,13 +161,14 @@ public class Quickstart {
 		method.setAccessible(true);
 
 
-
-        String typeName = store.getTypeNames()[0];
+        String [] typeNames = store.getTypeNames();
+        String typeName = typeNames[0];
 
         SimpleFeatureSource source = store.getFeatureSource(typeName);
 
         FeatureType schema = source.getSchema();
 //        String name = schema.getGeometryDescriptor().getLocalName();
+		// "title|station";
         String name = "title";
 
 		//Filter filter = null;//CQL.toFilter("title != 100" );
