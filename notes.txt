@@ -1,5 +1,5 @@
 
-
+http://docs.geotools.org/latest/javadocs/org/geotools/data/Query.html
 http://docs.geotools.org/stable/userguide/library/data/featuresource.html
 
 A simple count is available:

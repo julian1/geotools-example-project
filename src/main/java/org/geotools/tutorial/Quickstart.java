@@ -151,13 +151,7 @@ public class Quickstart {
 
         System.out.println( "*******\n");
 
-        System.out.println( store);
-        System.out.println( store.getFetchSize() );
-
         Connection conn = store.getDataSource().getConnection();
-
-        System.out.println( "conn");
-        System.out.println( conn );
 
 
         System.out.println( "dialect");
@@ -165,138 +159,46 @@ public class Quickstart {
 
 
 		// oohhhh
-        String typeName = store.getTypeNames()[0];
-        System.out.println( "typename");
-		System.out.println( typeName );
+        //System.out.println( "typename");
+		//System.out.println( typeName );
 
 		// bluenet_datasets
 
-        SimpleFeatureSource featureSource = store.getFeatureSource(typeName);
-        System.out.println( "featureSource");
-		System.out.println( featureSource);
 
-
-		// see http://docs.geotools.org/latest/javadocs/org/geotools/data/Query.html
-		// for details on queries and filters
-		//Query query = new Query("countries");
-
-
-   //     System.out.println( "count");
-	//	System.out.println( featureSource.getCount( query ) );
-
-
-		// want to pull values out,
-
-		//SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
-		//tb.setAttributes( store.getSchema().getAttributeDescriptors());
-		//tb.setAttributes( store.getAttributeDescriptors());
-
-
-//		protected int getCount(SimpleFeatureType featureType, Query query, Connection cx)
-
-
-//	error: getAggregateValue(FeatureVisitor,SimpleFeatureType,Query,Connection) has protected access in JDBCDataStore
-/*
-        System.out.println( "list of methods");
-
-		for(Method m : store.getClass().getDeclaredMethods()) {
-			if(m.getName().equals("getAggregateValue")) {
-				System.out.println( "whoot the method");
-				System.out.println (m);
-			}
-		}
-*/
-// can see the method there,
-//			protected java.lang.Object org.geotools.jdbc.JDBCDataStore.getAggregateValue(org.opengis.feature.FeatureVisitor,org.opengis.feature.simple.SimpleFeatureType,org.geotools.data.Query,java.sql.Connection) throws java.io.IOException
-
-
-        System.out.println( "***************");
-        System.out.println( "before get method");
-
+		// get our aggregate method
 		Method method = store.getClass().getDeclaredMethod("getAggregateValue",
 			org.opengis.feature.FeatureVisitor.class,
 			org.opengis.feature.simple.SimpleFeatureType.class,
 			org.geotools.data.Query.class,
 			java.sql.Connection.class
 		);
-		//Method method = store.getClass().getMethod("getAggregateValue" );
 		method.setAccessible(true);
 
 
 
+        String typeName = store.getTypeNames()[0];
 
-		//String typeName = (String) featureTypeCBox.getSelectedItem();
         SimpleFeatureSource source = store.getFeatureSource(typeName);
 
         FeatureType schema = source.getSchema();
 //        String name = schema.getGeometryDescriptor().getLocalName();
         String name = "title";
 
-//        Filter filter = CQL.toFilter("title != 100" );
+		Filter filter = null;//CQL.toFilter("title != 100" );
 
-        Query query = new Query(typeName, null , new String[] { name });
+        Query query = new Query(typeName, filter, new String[] { name });
 
 
 		UniqueVisitor u = new UniqueVisitor( name);
 
 		method.invoke(store, u, schema, query, conn );
 
+        System.out.println( u.getResult().toList() .size() );
 
-/*
-        System.out.println("method");
-		System.out.println("method = " + method.toString());
-
-		// CountVisitor v = new CountVisitor();
-		UniqueVisitor u = new UniqueVisitor( typeName);
-
-		SimpleFeatureType schema = featureSource.getSchema();
-
-		Query query = new Query( schema.getTypeName(), Filter.INCLUDE  );
-		query.setPropertyNames(new String[]{"the_geom", "name"});
-
-        System.out.println( "***************");
-        System.out.println("before call");
-		method.invoke(store, u, schema, query, conn );
+		//store.closeSafe(conn);
+        //store.dispose();
 
 
-//        System.out.println(  u.getCount() );
-
-        System.out.println("after call");
-*/
-//        store.getAggregateValue(v,null,query, null /*cx */);
- //       return v.getCount();
-
-
-
-
-		store.closeSafe(conn);
-        store.dispose();
-
-
-
-
-/*
-        // display a data store file chooser dialog for shapefiles
-        File file = JFileDataStoreChooser.showOpenFile("shp", null);
-        if (file == null) {
-            return;
-        }
-
-        FileDataStore store = FileDataStoreFinder.getDataStore(file);
-
-        SimpleFeatureSource featureSource = store.getFeatureSource();
-
-        // Create a map content and add our shapefile to it
-        MapContent map = new MapContent();
-        map.setTitle("Quickstart");
-
-        Style style = SLD.createSimpleStyle(featureSource.getSchema());
-        Layer layer = new FeatureLayer(featureSource, style);
-        map.addLayer(layer);
-
-        // Now display the map
-        JMapFrame.showMap(map);
-*/
     }
 
 }
