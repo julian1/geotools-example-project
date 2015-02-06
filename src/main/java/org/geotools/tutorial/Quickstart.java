@@ -22,6 +22,8 @@ import org.geotools.data.postgis.PostgisNGJNDIDataStoreFactory;
 import org.opengis.feature.Feature;
 import org.opengis.feature.type.FeatureType;
 
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 
 import org.geotools.factory.GeoTools;
 
@@ -40,6 +42,9 @@ import org.postgresql.ds.PGPoolingDataSource;
 //import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.feature.visitor.CountVisitor;
+
+
+
 
 import org.geotools.data.Query;
 
@@ -187,7 +192,7 @@ public class Quickstart {
 
 
 //	error: getAggregateValue(FeatureVisitor,SimpleFeatureType,Query,Connection) has protected access in JDBCDataStore
-
+/*
         System.out.println( "list of methods");
 
 		for(Method m : store.getClass().getDeclaredMethods()) { 
@@ -196,7 +201,7 @@ public class Quickstart {
 				System.out.println (m);
 			}
 		}
-
+*/
 // can see the method there,
 //			protected java.lang.Object org.geotools.jdbc.JDBCDataStore.getAggregateValue(org.opengis.feature.FeatureVisitor,org.opengis.feature.simple.SimpleFeatureType,org.geotools.data.Query,java.sql.Connection) throws java.io.IOException
 
@@ -216,8 +221,19 @@ public class Quickstart {
 		System.out.println("method = " + method.toString());
 
 
+		method.setAccessible(true);
  
- //       CountVisitor v = new CountVisitor();
+		CountVisitor v = new CountVisitor();
+
+		SimpleFeatureType schema = featureSource.getSchema();
+
+        System.out.println( "***************");
+        System.out.println("before call");
+		method.invoke(store, v, schema, query, null );
+
+
+        System.out.println(  v.getCount() );
+
 //        store.getAggregateValue(v,null,query, null /*cx */);
  //       return v.getCount();
 
