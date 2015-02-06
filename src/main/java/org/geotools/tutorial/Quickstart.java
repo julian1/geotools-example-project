@@ -173,7 +173,7 @@ public class Quickstart {
 		//Filter filter = null;//CQL.toFilter("title != 100" );
 //        Query query = new Query(typeName, filter, new String[] { "stationxxx" });
 
-        Query query = new Query("blah", null, new String[] { } );
+        Query query = new Query( null, null, new String[] { } );
 
 
 		UniqueVisitor u = new UniqueVisitor( name);
