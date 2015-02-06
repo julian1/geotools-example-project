@@ -229,10 +229,12 @@ public class Quickstart {
 
         System.out.println( "***************");
         System.out.println("before call");
-		method.invoke(store, v, schema, query, null );
+		method.invoke(store, v, schema, query, conn );
 
 
         System.out.println(  v.getCount() );
+
+        System.out.println("after call");
 
 //        store.getAggregateValue(v,null,query, null /*cx */);
  //       return v.getCount();
