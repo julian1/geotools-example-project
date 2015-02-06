@@ -28,6 +28,8 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.geotools.factory.GeoTools;
 
 
+import org.opengis.filter.Filter;
+
 import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -35,13 +37,14 @@ import javax.naming.NamingException;
 
 
 
-import org.postgresql.ds.PGConnectionPoolDataSource; 
-import org.postgresql.ds.PGPoolingDataSource; 
+import org.postgresql.ds.PGConnectionPoolDataSource;
+import org.postgresql.ds.PGPoolingDataSource;
 
 //import org.geotools.feature.simple.SimpleFeatureBuilder;
 //import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.feature.visitor.CountVisitor;
+import org.geotools.feature.visitor.UniqueVisitor;
 
 
 
@@ -68,11 +71,11 @@ public class Quickstart {
 
 // https://blogs.oracle.com/randystuph/entry/injecting_jndi_datasources_for_junit
 
-            // set up environment 
+            // set up environment
             System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
                 "org.apache.naming.java.javaURLContextFactory");
-            System.setProperty(Context.URL_PKG_PREFIXES, 
-                "org.apache.naming");            
+            System.setProperty(Context.URL_PKG_PREFIXES,
+                "org.apache.naming");
             InitialContext ic = new InitialContext();
 
             // jndi name
@@ -83,7 +86,7 @@ public class Quickstart {
 
 
             // PGConnectionPoolDataSource ds = new PGConnectionPoolDataSource();
-            PGPoolingDataSource ds = new PGPoolingDataSource() ; 
+            PGPoolingDataSource ds = new PGPoolingDataSource() ;
 
             System.out.println( "here4\n");
 
@@ -105,7 +108,7 @@ public class Quickstart {
             ds.setSsl( true );
 			ds.setSslfactory("org.postgresql.ssl.NonValidatingFactory");
 
-        
+
             System.out.println( "here5\n");
 
             // jndi association
@@ -113,11 +116,11 @@ public class Quickstart {
 
             System.out.println( "registered jndi\n");
 
- 
+
             // set the GeoTools initial context
             GeoTools.init( ic );
 
-            // problem is this initial context is not being read ... 
+            // problem is this initial context is not being read ...
         } catch (NamingException e) {
               System.out.println("***** Exception Uggh "  + e);
         }
@@ -175,14 +178,15 @@ public class Quickstart {
 
 		// see http://docs.geotools.org/latest/javadocs/org/geotools/data/Query.html
 		// for details on queries and filters
-		Query query = new Query("countries");
-
-        System.out.println( "count");
-		System.out.println( featureSource.getCount( query ) );
+		//Query query = new Query("countries");
 
 
-		// want to pull values out, 
-		
+   //     System.out.println( "count");
+	//	System.out.println( featureSource.getCount( query ) );
+
+
+		// want to pull values out,
+
 		//SimpleFeatureTypeBuilder tb = new SimpleFeatureTypeBuilder();
 		//tb.setAttributes( store.getSchema().getAttributeDescriptors());
 		//tb.setAttributes( store.getAttributeDescriptors());
@@ -195,8 +199,8 @@ public class Quickstart {
 /*
         System.out.println( "list of methods");
 
-		for(Method m : store.getClass().getDeclaredMethods()) { 
-			if(m.getName().equals("getAggregateValue")) { 
+		for(Method m : store.getClass().getDeclaredMethods()) {
+			if(m.getName().equals("getAggregateValue")) {
 				System.out.println( "whoot the method");
 				System.out.println (m);
 			}
@@ -209,43 +213,66 @@ public class Quickstart {
         System.out.println( "***************");
         System.out.println( "before get method");
 
-		Method method = store.getClass().getDeclaredMethod("getAggregateValue", 
+		Method method = store.getClass().getDeclaredMethod("getAggregateValue",
 			org.opengis.feature.FeatureVisitor.class,
 			org.opengis.feature.simple.SimpleFeatureType.class,
 			org.geotools.data.Query.class,
 			java.sql.Connection.class
 		);
 		//Method method = store.getClass().getMethod("getAggregateValue" );
+		method.setAccessible(true);
 
+
+
+
+		//String typeName = (String) featureTypeCBox.getSelectedItem();
+        SimpleFeatureSource source = store.getFeatureSource(typeName);
+
+        FeatureType schema = source.getSchema();
+//        String name = schema.getGeometryDescriptor().getLocalName();
+        String name = "title";
+
+//        Filter filter = CQL.toFilter("title != 100" );
+
+        Query query = new Query(typeName, null , new String[] { name });
+
+
+		UniqueVisitor u = new UniqueVisitor( name);
+
+		method.invoke(store, u, schema, query, conn );
+
+
+/*
         System.out.println("method");
 		System.out.println("method = " + method.toString());
 
-
-		method.setAccessible(true);
- 
-		CountVisitor v = new CountVisitor();
+		// CountVisitor v = new CountVisitor();
+		UniqueVisitor u = new UniqueVisitor( typeName);
 
 		SimpleFeatureType schema = featureSource.getSchema();
 
+		Query query = new Query( schema.getTypeName(), Filter.INCLUDE  );
+		query.setPropertyNames(new String[]{"the_geom", "name"});
+
         System.out.println( "***************");
         System.out.println("before call");
-		method.invoke(store, v, schema, query, conn );
+		method.invoke(store, u, schema, query, conn );
 
 
-        System.out.println(  v.getCount() );
+//        System.out.println(  u.getCount() );
 
         System.out.println("after call");
-
+*/
 //        store.getAggregateValue(v,null,query, null /*cx */);
  //       return v.getCount();
 
 
 
-  
+
 		store.closeSafe(conn);
         store.dispose();
 
-		
+
 
 
 /*

@@ -1,0 +1,47 @@
+
+
+http://docs.geotools.org/stable/userguide/library/data/featuresource.html
+
+A simple count is available:
+
+SimpleFeatureType schema = featureSource.getSchema();
+Query query = new Query( schema.getTypeName(), Filter.INCLUDE );
+int count = featureSource.getCount( query );
+if( count == -1 ){
+  // information was not available in the header!
+  SimpleFeatureCollection collection = featureSource.getFeatures( query );
+  count = collection.size();
+}
+System.out.println("There are "+count+" "+schema.getTypeName()+ " features");
+
+
+
+
+The bounding box, or extend, of a set of features:
+
+SimpleFeatureType schema = featureSource.getSchema();
+Query query = new Query( schema.getTypeName(), Filter.INCLUDE );
+BoundingBox bounds = featureSource.getBounds( query );
+if( bounds == null ){
+   // information was not available in the header
+   FeatureCollection<SimpleFeatureType, SimpleFeature> collection = featureSource.getFeatures( query );
+   bounds = collection.getBounds();
+}
+System.out.println("The features are contained within "+bounds );
+
+
+
+
+
+Ad-hoc summary information is available using aggregate functions for feature collections:
+
+SimpleFeatureCollection collection = featureSource.getFeatures();
+
+FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2(null);
+Function sum = ff.function("Collection_Sum", ff.property("population"));
+
+Object value = sum.evaluate( featureCollection );
+System.out.println("total population: "+ sum );
+
+
+

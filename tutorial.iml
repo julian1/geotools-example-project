@@ -40,6 +40,12 @@
     <orderEntry type="library" name="Maven: commons-dbcp:commons-dbcp:1.4" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.1" level="project" />
     <orderEntry type="library" name="Maven: org.geotools.jdbc:gt-jdbc-postgis:12.1" level="project" />
-    <orderEntry type="library" name="Maven: postgresql:postgresql:8.4-701.jdbc3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:7.0.57" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-catalina:7.0.57" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-servlet-api:7.0.57" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-annotations-api:7.0.57" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-api:7.0.57" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-util:7.0.57" level="project" />
+    <orderEntry type="library" name="Maven: postgresql:postgresql:9.1-901.jdbc4" level="project" />
   </component>
 </module>
