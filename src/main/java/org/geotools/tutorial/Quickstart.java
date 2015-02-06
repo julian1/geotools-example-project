@@ -170,9 +170,10 @@ public class Quickstart {
 //        String name = schema.getGeometryDescriptor().getLocalName();
         String name = "title";
 
-		Filter filter = null;//CQL.toFilter("title != 100" );
+		//Filter filter = null;//CQL.toFilter("title != 100" );
+//        Query query = new Query(typeName, filter, new String[] { "stationxxx" });
 
-        Query query = new Query(typeName, filter, new String[] { name });
+        Query query = new Query("blah", null, new String[] { } );
 
 
 		UniqueVisitor u = new UniqueVisitor( name);
