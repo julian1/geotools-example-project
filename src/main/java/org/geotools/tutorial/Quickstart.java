@@ -2,28 +2,17 @@ package org.geotools.tutorial.quickstart;
 
 /*package org.geotools.jdbc;  */
 
-import java.io.IOException;
+
 import java.sql.Connection;
-import java.util.ArrayList;
+ 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
-import org.geotools.data.DataAccess;
-import org.geotools.data.DataAccessFactory;
-import org.geotools.data.DataAccessFactory.Param;
-import org.geotools.data.DataStore;
-import org.geotools.data.DataStoreFinder;
-import org.geotools.jdbc.JDBCDataStoreFactory;
-import org.geotools.jdbc.JDBCJNDIDataStoreFactory;
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.data.postgis.PostgisNGJNDIDataStoreFactory;
-import org.opengis.feature.Feature;
+
 import org.opengis.feature.type.FeatureType;
 
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 
 import org.geotools.factory.GeoTools;
 
@@ -37,13 +26,10 @@ import javax.naming.NamingException;
 
 
 
-import org.postgresql.ds.PGConnectionPoolDataSource;
 import org.postgresql.ds.PGPoolingDataSource;
 
-//import org.geotools.feature.simple.SimpleFeatureBuilder;
-//import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.feature.visitor.CountVisitor;
+
 import org.geotools.feature.visitor.UniqueVisitor;
 
 
