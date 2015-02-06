@@ -1,6 +1,16 @@
 
 http://docs.geotools.org/latest/javadocs/org/geotools/data/Query.html
 http://docs.geotools.org/stable/userguide/library/data/featuresource.html
+http://docs.geotools.org/stable/userguide/tutorial/feature/csv2shp.html
+
+The DataStore has a FeatureSource inside it.
+	eg. dataStore.getFeatureSource()
+	and FeatureStore implements the FeatureSource
+
+* The FeatureSource is used to read features, the subclass FeatureStore is used for read/write access. eg. 
+	because it's more specific.
+
+
 
 A simple count is available:
 
