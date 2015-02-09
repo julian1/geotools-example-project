@@ -151,14 +151,14 @@ public class Quickstart {
 		// bluenet_datasets
 
 
-		// get our aggregate method
-		Method method = store.getClass().getDeclaredMethod("getAggregateValue",
+		// get our aggregate storeGetAggregateValueMethod
+		Method storeGetAggregateValueMethod = store.getClass().getDeclaredMethod("getAggregateValue",
 			org.opengis.feature.FeatureVisitor.class,
 			org.opengis.feature.simple.SimpleFeatureType.class,
 			org.geotools.data.Query.class,
 			java.sql.Connection.class
 		);
-		method.setAccessible(true);
+		storeGetAggregateValueMethod.setAccessible(true);
 
 
         String [] typeNames = store.getTypeNames();
@@ -177,11 +177,11 @@ public class Quickstart {
         Query query = new Query( null, null, new String[] { } );
 
 
-		UniqueVisitor u = new UniqueVisitor( name);
+		UniqueVisitor visitor = new UniqueVisitor( name);
 
-		method.invoke(store, u, schema, query, conn );
+		storeGetAggregateValueMethod.invoke(store, visitor, schema, query, conn );
 
-        System.out.println( u.getResult().toList() .size() );
+        System.out.println( visitor.getResult().toList() .size() );
 
 		//store.closeSafe(conn);
         //store.dispose();
