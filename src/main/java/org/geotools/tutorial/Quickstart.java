@@ -56,10 +56,10 @@ public class Quickstart {
 
 			// Ok, is it possible to have a simpleFeatureType without Geometry?.
 
-			SimpleFeatureType TYPE = DataUtilities.createType("location", "geom:Point,name:String");
-			// SimpleFeatureType TYPE = DataUtilities.createType("location", "name:String");
+//			SimpleFeatureType TYPE = DataUtilities.createType("location", "geom:Point,name:String");
+			SimpleFeatureType TYPE = DataUtilities.createType("something", "name:String");
 
-			File locationFile = new File("location.xsd");
+			File locationFile = new File("something.xsd");
 			locationFile = locationFile.getCanonicalFile();
 			locationFile.createNewFile();
 
@@ -70,24 +70,23 @@ public class Quickstart {
 
 			GML encode = new GML(Version.GML2);
 			encode.setBaseURL(baseURL);
-			encode.setNamespace("location", locationURL.toExternalForm());
+			encode.setNamespace("something", locationURL.toExternalForm());
 			encode.encode(xsd, TYPE);
 
 			xsd.close();
 
-
 			
 			WKTReader2 wkt = new WKTReader2();
 			List<SimpleFeature> collection = new LinkedList<SimpleFeature>();
-			collection.add(SimpleFeatureBuilder.build(TYPE, new Object[] { wkt.read("POINT (1 2)"),"name1" }, null));
-			collection.add(SimpleFeatureBuilder.build(TYPE, new Object[] { wkt.read("POINT (4 4)"),"name2" }, null));
+			collection.add(SimpleFeatureBuilder.build(TYPE, new Object[] { "name1" }, null));
+			collection.add(SimpleFeatureBuilder.build(TYPE, new Object[] { "name2" }, null));
 
 			ByteArrayOutputStream xml = new ByteArrayOutputStream();
 
 			GML encode2 = new GML(Version.GML2);
 			encode2.setLegacy(true);
 			encode2.setBaseURL(baseURL);
-			encode2.setNamespace("location", "location.xsd");
+			encode2.setNamespace("something", "location.xsd");
 			encode2.encode(xml,  new ListFeatureCollection(TYPE, collection));
 
 			xml.close();
