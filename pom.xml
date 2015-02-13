@@ -38,18 +38,17 @@
         </dependency>
 
 
-   <dependency>
+   <!--dependency>
     <groupId>org.geotools.xsd</groupId>
     <artifactId>gt-xsd-gml2</artifactId>
 	<version>${geotools.version}</version>
-    <!-- version>${gt.version}</version -->
    </dependency>
 
   <dependency>
     <groupId>org.geotools.xsd</groupId>
     <artifactId>gt-xsd-gml3</artifactId>
 	<version>${geotools.version}</version>
-   </dependency>
+   </dependency -->
 
 
   <dependency>
@@ -57,10 +56,6 @@
     <artifactId>gt-xml</artifactId>
 	<version>${geotools.version}</version>
    </dependency>
-
-
-	  
-
 
         <!--dependency>
             <groupId>org.geotools.jdbc</groupId>
@@ -73,7 +68,6 @@
             <artifactId>gt-jdbc-postgis</artifactId>
             <version>${geotools.version}</version>
         </dependency>
-
 
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>

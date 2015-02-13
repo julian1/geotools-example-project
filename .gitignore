@@ -4,3 +4,4 @@ old/
 target/
 .idea/*
 !.idea/codeStyleSettings.xml
+location.xsd

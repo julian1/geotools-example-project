@@ -34,14 +34,18 @@ import org.geotools.data.simple.SimpleFeatureSource;
 // import org.geotools.GML.GML; 
 // modules/library/xml/src/main/java/org/geotools/
 
-
+/*
 import org.geotools.gml.GMLFilterDocument;
 import org.geotools.gml.GMLFilterFeature;
 import org.geotools.gml.GMLFilterGeometry;
 import org.geotools.gml.GMLHandlerFeature;
 //import org.geotools.xml.gml.GMLComplexTypes;
+*/
 
 
+import java.io.File; 
+import org.geotools.data.DataUtilities;
+import org.opengis.feature.simple.SimpleFeatureType; 
 
 /*import org.geotools.GML.Version;
 import org.geotools.data.DataUtilities;
@@ -62,7 +66,11 @@ import org.geotools.xml.Configuration;
 //import org.geotools.gml2;
 
 
-import org.geotools.*;
+import org.geotools.GML;
+import org.geotools.GML.Version;
+
+import java.net.URL;
+import java.io.FileOutputStream; 
 
 // /home/meteo/imos/projects/geotools/modules/extension/xsd/xsd-gml2/src/main/java/org/geotools/gml2/GML.java
 
@@ -72,10 +80,45 @@ import org.geotools.*;
 public class Quickstart {
 
 
-	public void myfunc( ) {
+	public static void myfunc() {
 
-		GML encode = null;//new GML(Version.GML2);				
+		try { 
+
+			// Ok, is it possible to have a simpleFeatureType without Geometry?.
+
+			//SimpleFeatureType TYPE = DataUtilities.createType("location", "geom:Point,name:String");
+			SimpleFeatureType TYPE = DataUtilities.createType("location", "name:String");
+
+			File locationFile = new File("location.xsd");
+			locationFile = locationFile.getCanonicalFile();
+			locationFile.createNewFile();
+
+			URL locationURL = locationFile.toURI().toURL();
+			URL baseURL = locationFile.getParentFile().toURI().toURL();
+
+			FileOutputStream xsd = new FileOutputStream(locationFile);
+
+			GML encode = new GML(Version.GML2);
+			encode.setBaseURL(baseURL);
+			encode.setNamespace("location", locationURL.toExternalForm());
+			encode.encode(xsd, TYPE);
+
+			xsd.close();
+
+/*			GML encode = new GML(Version.GML2);				
 			
+			System.out.println( "GML object " + encode + "\n");
+
+			SimpleFeatureType TYPE = DataUtilities.createType("location", "geom:Point,name:String");
+
+			File locationFile = new File("location.xsd");
+			locationFile = locationFile.getCanonicalFile();
+			locationFile.createNewFile();
+*/
+        // System.out.println( encode);
+		} catch( Exception  e) {
+			System.out.println("Exception " + e);
+		}	
 	}
 
 
@@ -87,6 +130,9 @@ public class Quickstart {
 
 
         System.out.println( "hi there\n");
+
+		myfunc();
+		if( true ) return;
 
         try {
 
