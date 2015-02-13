@@ -48,8 +48,13 @@ import org.opengis.feature.simple.SimpleFeature;
 
 
 public class Quickstart {
+	/*
+		we either
+			1. have a collection with no location.
+			2. query the geometry as well. (no we can't get the geometry because it would have 
+				to compute the outer hull of all points which is expensive )
 
-
+	*/
 	public static void myfunc() {
 
 		try { 
