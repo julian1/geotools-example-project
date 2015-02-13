@@ -10,13 +10,8 @@ import java.util.HashMap;
 
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.data.postgis.PostgisNGJNDIDataStoreFactory;
-
 import org.opengis.feature.type.FeatureType;
-
-
 import org.geotools.factory.GeoTools;
-
-
 import org.opengis.filter.Filter;
 
 import java.util.Properties;
@@ -24,23 +19,65 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-
+import org.geotools.feature.visitor.UniqueVisitor;
+import org.geotools.data.Query;
+import java.lang.reflect.Method;
 
 import org.postgresql.ds.PGPoolingDataSource;
-
 import org.geotools.data.simple.SimpleFeatureSource;
 
-import org.geotools.feature.visitor.UniqueVisitor;
+// ./modules/library/xml/src/main/java/org/geotools/GML.java 
+//import org.geotools.GML.Version;
+// import org.geotools.data.GML;
+// import org.geotools.GML;
+// import org.geotools.gml.GML;
+// import org.geotools.GML.GML; 
+// modules/library/xml/src/main/java/org/geotools/
+
+
+import org.geotools.gml.GMLFilterDocument;
+import org.geotools.gml.GMLFilterFeature;
+import org.geotools.gml.GMLFilterGeometry;
+import org.geotools.gml.GMLHandlerFeature;
+//import org.geotools.xml.gml.GMLComplexTypes;
 
 
 
+/*import org.geotools.GML.Version;
+import org.geotools.data.DataUtilities;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
+import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.NameImpl;
+import org.geotools.feature.simple.SimpleFeatureBuilder;
+import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.geometry.jts.WKTReader2;
+import org.geotools.gtxml.GTXML;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.test.TestData;
+import org.geotools.wfs.v1_1.WFSConfiguration;
+import org.geotools.xml.Configuration;
+*/
 
-import org.geotools.data.Query;
+//import org.geotools.gml2;
 
-import java.lang.reflect.Method;
+
+import org.geotools.*;
+
+// /home/meteo/imos/projects/geotools/modules/extension/xsd/xsd-gml2/src/main/java/org/geotools/gml2/GML.java
+
+
 
 
 public class Quickstart {
+
+
+	public void myfunc( ) {
+
+		GML encode = null;//new GML(Version.GML2);				
+			
+	}
+
 
   /*
     Example taken from
@@ -166,13 +203,16 @@ public class Quickstart {
 
         SimpleFeatureSource source = store.getFeatureSource(typeName);
 
+		System.out.println( "typeName is " + typeName );
+
+
         FeatureType schema = source.getSchema();
 //        String name = schema.getGeometryDescriptor().getLocalName();
 		// "title|station";
         String name = "title";
 
 		//Filter filter = null;//CQL.toFilter("title != 100" );
-//        Query query = new Query(typeName, filter, new String[] { "stationxxx" });
+		//        Query  = new Query(typeName, filter, new String[] { "stationxxx" });
 
         Query query = new Query( null, null, new String[] { } );
 
