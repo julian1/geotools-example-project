@@ -4,14 +4,19 @@ package org.geotools.tutorial.quickstart;
 
 
 import java.sql.Connection;
- 
 import java.util.HashMap;
+import java.util.List; 
+import java.util.LinkedList; 
+import java.io.File; 
+import java.io.ByteArrayOutputStream; 
+import java.io.FileOutputStream; 
+import java.net.URL;
 
 
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.data.postgis.PostgisNGJNDIDataStoreFactory;
-import org.opengis.feature.type.FeatureType;
 import org.geotools.factory.GeoTools;
+import org.opengis.feature.type.FeatureType;
 import org.opengis.filter.Filter;
 
 import java.util.Properties;
@@ -26,53 +31,18 @@ import java.lang.reflect.Method;
 import org.postgresql.ds.PGPoolingDataSource;
 import org.geotools.data.simple.SimpleFeatureSource;
 
-// ./modules/library/xml/src/main/java/org/geotools/GML.java 
-//import org.geotools.GML.Version;
-// import org.geotools.data.GML;
-// import org.geotools.GML;
-// import org.geotools.gml.GML;
-// import org.geotools.GML.GML; 
-// modules/library/xml/src/main/java/org/geotools/
-
-/*
-import org.geotools.gml.GMLFilterDocument;
-import org.geotools.gml.GMLFilterFeature;
-import org.geotools.gml.GMLFilterGeometry;
-import org.geotools.gml.GMLHandlerFeature;
-//import org.geotools.xml.gml.GMLComplexTypes;
-*/
 
 
-import java.io.File; 
+
 import org.geotools.data.DataUtilities;
-import org.opengis.feature.simple.SimpleFeatureType; 
-
-/*import org.geotools.GML.Version;
-import org.geotools.data.DataUtilities;
-import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.feature.FeatureCollections;
-import org.geotools.feature.NameImpl;
-import org.geotools.feature.simple.SimpleFeatureBuilder;
-import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.geotools.geometry.jts.WKTReader2;
-import org.geotools.gtxml.GTXML;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
-import org.geotools.test.TestData;
-import org.geotools.wfs.v1_1.WFSConfiguration;
-import org.geotools.xml.Configuration;
-*/
-
-//import org.geotools.gml2;
-
-
+import org.geotools.data.collection.ListFeatureCollection;
 import org.geotools.GML;
 import org.geotools.GML.Version;
+import org.geotools.feature.simple.SimpleFeatureBuilder;
+import org.geotools.geometry.jts.WKTReader2;
 
-import java.net.URL;
-import java.io.FileOutputStream; 
-
-// /home/meteo/imos/projects/geotools/modules/extension/xsd/xsd-gml2/src/main/java/org/geotools/gml2/GML.java
+import org.opengis.feature.simple.SimpleFeatureType; 
+import org.opengis.feature.simple.SimpleFeature; 
 
 
 
@@ -86,8 +56,8 @@ public class Quickstart {
 
 			// Ok, is it possible to have a simpleFeatureType without Geometry?.
 
-			//SimpleFeatureType TYPE = DataUtilities.createType("location", "geom:Point,name:String");
-			SimpleFeatureType TYPE = DataUtilities.createType("location", "name:String");
+			SimpleFeatureType TYPE = DataUtilities.createType("location", "geom:Point,name:String");
+			// SimpleFeatureType TYPE = DataUtilities.createType("location", "name:String");
 
 			File locationFile = new File("location.xsd");
 			locationFile = locationFile.getCanonicalFile();
@@ -104,6 +74,27 @@ public class Quickstart {
 			encode.encode(xsd, TYPE);
 
 			xsd.close();
+
+
+			
+			WKTReader2 wkt = new WKTReader2();
+			List<SimpleFeature> collection = new LinkedList<SimpleFeature>();
+			collection.add(SimpleFeatureBuilder.build(TYPE, new Object[] { wkt.read("POINT (1 2)"),"name1" }, null));
+			collection.add(SimpleFeatureBuilder.build(TYPE, new Object[] { wkt.read("POINT (4 4)"),"name2" }, null));
+
+			ByteArrayOutputStream xml = new ByteArrayOutputStream();
+
+			GML encode2 = new GML(Version.GML2);
+			encode2.setLegacy(true);
+			encode2.setBaseURL(baseURL);
+			encode2.setNamespace("location", "location.xsd");
+			encode2.encode(xml,  new ListFeatureCollection(TYPE, collection));
+
+			xml.close();
+
+			String gml = xml.toString();
+
+
 
 /*			GML encode = new GML(Version.GML2);				
 			
