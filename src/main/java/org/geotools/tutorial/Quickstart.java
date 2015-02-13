@@ -95,6 +95,7 @@ public class Quickstart {
 			String gml = xml.toString();
 
 
+			System.out.println( "gml " + gml + "\n");
 
 /*			GML encode = new GML(Version.GML2);				
 			
